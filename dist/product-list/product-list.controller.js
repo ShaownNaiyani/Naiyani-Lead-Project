@@ -24,6 +24,9 @@ let ProductListController = exports.ProductListController = class ProductListCon
     async uploadFile(file) {
         return this.productListService.saveFile(file);
     }
+    async deleteAllFilesData() {
+        this.productListService.deleteAllData();
+    }
 };
 __decorate([
     (0, common_1.Post)('/upload'),
@@ -32,11 +35,23 @@ __decorate([
             destination: './csv'
         })
     })),
-    __param(0, (0, common_1.UploadedFile)()),
+    __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipeBuilder()
+        .addFileTypeValidator({
+        fileType: 'csv',
+    })
+        .build({
+        errorHttpStatusCode: common_1.HttpStatus.UNPROCESSABLE_ENTITY
+    }))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProductListController.prototype, "uploadFile", null);
+__decorate([
+    (0, common_1.Post)('delete'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ProductListController.prototype, "deleteAllFilesData", null);
 exports.ProductListController = ProductListController = __decorate([
     (0, common_1.Controller)('product-list'),
     __metadata("design:paramtypes", [product_list_service_1.ProductListService])

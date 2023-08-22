@@ -5,20 +5,83 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductListService = void 0;
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
+const mongoose_2 = require("mongoose");
+const product_list_dto_1 = require("./dtos/product-list.dto");
+const class_validator_1 = require("class-validator");
+const uuid_1 = require("uuid");
 let ProductListService = exports.ProductListService = class ProductListService {
+    constructor(productListModel) {
+        this.productListModel = productListModel;
+    }
     async saveFile(file) {
         const csv = require('csvtojson');
         const csvFilepath = process.cwd() + '/' + file.path;
         const productArray = await csv().fromFile(csvFilepath);
-        productArray.splice(-2);
-        console.log(productArray);
-        return productArray;
+        const productWithDtoArray = [];
+        for (let product of productArray) {
+            const productExists = await this.productAlreadyExist(product);
+            if (productExists) {
+                console.log("Same Product found!");
+            }
+            else {
+                const dtoFile = new product_list_dto_1.StoreProductListDto();
+                dtoFile.id = (0, uuid_1.v4)();
+                Object.assign(dtoFile, product);
+                const validationErrors = await (0, class_validator_1.validate)(dtoFile);
+                if (validationErrors.length === 0) {
+                    const newProduct = await new this.productListModel(dtoFile);
+                    const saveProduct = await newProduct.save();
+                    productWithDtoArray.push(saveProduct);
+                }
+                else {
+                    return new common_1.HttpException('Empty filed not accptable.Please insert a value in empty field!', common_1.HttpStatus.BAD_REQUEST);
+                }
+            }
+        }
+        console.log(productWithDtoArray.length);
+        return productWithDtoArray;
+    }
+    async productAlreadyExist(product) {
+        return await this.productListModel.findOne({
+            ProductImage: product.ProductImage,
+            ImageLink: product.ImageLink,
+            ProductName: product.ProductName,
+            ASIN: product.ASIN,
+            AmazonFBAEstimatedFees: product.AmazonFBAEstimatedFees,
+            EstimatedMonthlySales: product.EstimatedMonthlySales,
+            EstimatedSalesRank: product.EstimatedSalesRank,
+            SalesRank30days: product.SalesRank30days,
+            SalesRank90days: product.SalesRank90days,
+            SourcingURL: product.SourcingURL,
+            SourcingPrice: product.SourcingPrice,
+            AmazonURL: product.AmazonURL,
+            AmazonPrice: product.AmazonPrice,
+            AmazonOnListing: product.AmazonOnListing,
+            NumberOfSellersOnTheListing: product.NumberOfSellersOnTheListing,
+            NumberOfReviews: product.NumberOfReviews,
+            EstimatedGrossProfit: product.EstimatedGrossProfit,
+            EstimatedGrossProfitMargin: product.EstimatedGrossProfitMargin,
+            EstimatedNetProfit: product.EstimatedNetProfit,
+            EstimatedNetProfitMargin: product.EstimatedNetProfitMargin,
+        });
+    }
+    async deleteAllData() {
+        return this.productListModel.deleteMany({});
     }
 };
 exports.ProductListService = ProductListService = __decorate([
-    (0, common_1.Injectable)()
+    (0, common_1.Injectable)(),
+    __param(0, (0, mongoose_1.InjectModel)("ProductDetails")),
+    __metadata("design:paramtypes", [mongoose_2.Model])
 ], ProductListService);
 //# sourceMappingURL=product-list.service.js.map

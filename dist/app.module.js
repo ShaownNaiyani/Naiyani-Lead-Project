@@ -11,11 +11,13 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const product_list_module_1 = require("./product-list/product-list.module");
+const mongoose_1 = require("@nestjs/mongoose");
 let AppModule = exports.AppModule = class AppModule {
 };
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
+            mongoose_1.MongooseModule.forRoot("mongodb+srv://Shaown:Arpita@cluster0.m94phd5.mongodb.net/NaiyaniLeadsDB?retryWrites=true&w=majority"),
             product_list_module_1.ProductListModule
         ],
         controllers: [app_controller_1.AppController],

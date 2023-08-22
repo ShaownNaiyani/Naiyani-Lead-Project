@@ -1,4 +1,4 @@
-import { Controller, Post, UseInterceptors,UploadedFile, } from '@nestjs/common';
+import { Controller, Post, UseInterceptors,UploadedFile, ParseFilePipe, ParseFilePipeBuilder, HttpStatus, } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { ProductListService } from './product-list.service';
@@ -17,10 +17,23 @@ export class ProductListController {
             })
         })
     )
-    async uploadFile(@UploadedFile() file){
+    async uploadFile(@UploadedFile(
+        new ParseFilePipeBuilder()
+        .addFileTypeValidator({
+        fileType: 'csv',
+        })
+        .build({
+        errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
+        })
+    ) file: Express.Multer.File){
 
         return this.productListService.saveFile(file);
 
     }
     
+
+    @Post('delete')
+    async deleteAllFilesData(){
+        this.productListService.deleteAllData();
+    }
 }

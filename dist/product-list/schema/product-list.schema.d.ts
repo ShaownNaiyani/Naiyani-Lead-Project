@@ -21,17 +21,33 @@
 /// <reference types="mongoose/types/utility" />
 /// <reference types="mongoose/types/validation" />
 /// <reference types="mongoose/types/virtuals" />
+/// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
-import { HttpException } from '@nestjs/common';
-import { Model } from 'mongoose';
-import { IProductList } from './interface/product-list.interface';
-import { StoreProductListDto } from './dtos/product-list.dto';
-export declare class ProductListService {
-    private productListModel;
-    constructor(productListModel: Model<IProductList>);
-    saveFile(file: any): Promise<StoreProductListDto[] | HttpException>;
-    productAlreadyExist(product: any): Promise<import("mongoose").Document<unknown, {}, IProductList> & IProductList & {
-        _id: import("mongoose").Types.ObjectId;
-    }>;
-    deleteAllData(): Promise<import("mongodb").DeleteResult>;
+export declare class ProductDetails {
+    id: string;
+    ProductImage: string;
+    ImageLink: string;
+    ProductName: string;
+    ASIN: string;
+    AmazonFBAEstimatedFees: string;
+    EstimatedMonthlySales: string;
+    EstimatedSalesRank: string;
+    SalesRank30days: string;
+    SalesRank90days: string;
+    SourcingURL: string;
+    SourcingPrice: string;
+    AmazonURL: string;
+    AmazonPrice: string;
+    AmazonOnListing: string;
+    NumberOfSellersOnTheListing: string;
+    NumberOfReviews: string;
+    EstimatedGrossProfit: string;
+    EstimatedGrossProfitMargin: string;
+    EstimatedNetProfit: string;
+    EstimatedNetProfitMargin: string;
 }
+export declare const ProductListSchema: import("mongoose").Schema<ProductDetails, import("mongoose").Model<ProductDetails, any, any, any, import("mongoose").Document<unknown, any, ProductDetails> & ProductDetails & {
+    _id: import("mongoose").Types.ObjectId;
+}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, ProductDetails, import("mongoose").Document<unknown, {}, ProductDetails> & ProductDetails & {
+    _id: import("mongoose").Types.ObjectId;
+}>;
