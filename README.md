@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 # Naiyani-Lead-Project
 
@@ -77,7 +75,3 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 
-> > > > > > > master
-=======
-
->>>>>>> ed62dc5b02f81515be7fafb2626d8a97c3f8d03a
