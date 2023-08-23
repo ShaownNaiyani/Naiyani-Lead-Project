@@ -11,12 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductListSchema = exports.ProductDetails = void 0;
 const mongoose_1 = require("@nestjs/mongoose");
+const uuid_1 = require("uuid");
 let ProductDetails = exports.ProductDetails = class ProductDetails {
 };
 __decorate([
-    (0, mongoose_1.Prop)(),
+    (0, mongoose_1.Prop)({ type: String, default: function genUUID() {
+            return (0, uuid_1.v4)();
+        } }),
     __metadata("design:type", String)
-], ProductDetails.prototype, "id", void 0);
+], ProductDetails.prototype, "_id", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)

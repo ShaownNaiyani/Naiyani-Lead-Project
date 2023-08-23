@@ -25,13 +25,12 @@
 import { HttpException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { IProductList } from './interface/product-list.interface';
-import { StoreProductListDto } from './dtos/product-list.dto';
 export declare class ProductListService {
     private productListModel;
     constructor(productListModel: Model<IProductList>);
-    saveFile(file: any): Promise<StoreProductListDto[] | HttpException>;
-    productAlreadyExist(product: any): Promise<import("mongoose").Document<unknown, {}, IProductList> & IProductList & {
-        _id: import("mongoose").Types.ObjectId;
-    }>;
+    CreateLeads(file: any): Promise<HttpException>;
+    productAlreadyExist(product: any): Promise<import("mongoose").Document<unknown, {}, IProductList> & IProductList & Required<{
+        _id: string;
+    }>>;
     deleteAllData(): Promise<import("mongodb").DeleteResult>;
 }

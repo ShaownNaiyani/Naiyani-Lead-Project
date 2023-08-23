@@ -1,11 +1,8 @@
 
-import { IsNotEmpty, IsNumber, IsString, MaxLength } from "class-validator";
+import { IsNotEmpty} from "class-validator";
 
 export class StoreProductListDto{
     
-    
-    id : string;
-
     @IsNotEmpty()
     ProductImage:string; 
 

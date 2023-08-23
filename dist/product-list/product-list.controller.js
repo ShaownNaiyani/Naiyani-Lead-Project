@@ -15,14 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductListController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
-const multer_1 = require("multer");
 const product_list_service_1 = require("./product-list.service");
 let ProductListController = exports.ProductListController = class ProductListController {
     constructor(productListService) {
         this.productListService = productListService;
     }
-    async uploadFile(file) {
-        return this.productListService.saveFile(file);
+    async LeadsFileUpload(file) {
+        return this.productListService.CreateLeads(file);
     }
     async deleteAllFilesData() {
         this.productListService.deleteAllData();
@@ -30,11 +29,7 @@ let ProductListController = exports.ProductListController = class ProductListCon
 };
 __decorate([
     (0, common_1.Post)('/upload'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file_product', {
-        storage: (0, multer_1.diskStorage)({
-            destination: './csv'
-        })
-    })),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file_product')),
     __param(0, (0, common_1.UploadedFile)(new common_1.ParseFilePipeBuilder()
         .addFileTypeValidator({
         fileType: 'csv',
@@ -45,7 +40,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], ProductListController.prototype, "uploadFile", null);
+], ProductListController.prototype, "LeadsFileUpload", null);
 __decorate([
     (0, common_1.Post)('delete'),
     __metadata("design:type", Function),

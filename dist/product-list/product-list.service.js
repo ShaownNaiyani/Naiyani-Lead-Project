@@ -18,61 +18,32 @@ const mongoose_1 = require("@nestjs/mongoose");
 const mongoose_2 = require("mongoose");
 const product_list_dto_1 = require("./dtos/product-list.dto");
 const class_validator_1 = require("class-validator");
-const uuid_1 = require("uuid");
 let ProductListService = exports.ProductListService = class ProductListService {
     constructor(productListModel) {
         this.productListModel = productListModel;
     }
-    async saveFile(file) {
+    async CreateLeads(file) {
         const csv = require('csvtojson');
-        const csvFilepath = process.cwd() + '/' + file.path;
-        const productArray = await csv().fromFile(csvFilepath);
-        const productWithDtoArray = [];
+        const productArray = await csv().fromString(file.buffer.toString());
         for (let product of productArray) {
             const productExists = await this.productAlreadyExist(product);
-            if (productExists) {
-                console.log("Same Product found!");
-            }
-            else {
+            if (!productExists) {
                 const dtoFile = new product_list_dto_1.StoreProductListDto();
-                dtoFile.id = (0, uuid_1.v4)();
                 Object.assign(dtoFile, product);
                 const validationErrors = await (0, class_validator_1.validate)(dtoFile);
                 if (validationErrors.length === 0) {
                     const newProduct = await new this.productListModel(dtoFile);
                     const saveProduct = await newProduct.save();
-                    productWithDtoArray.push(saveProduct);
                 }
                 else {
                     return new common_1.HttpException('Empty filed not accptable.Please insert a value in empty field!', common_1.HttpStatus.BAD_REQUEST);
                 }
             }
         }
-        console.log(productWithDtoArray.length);
-        return productWithDtoArray;
     }
     async productAlreadyExist(product) {
         return await this.productListModel.findOne({
-            ProductImage: product.ProductImage,
-            ImageLink: product.ImageLink,
-            ProductName: product.ProductName,
             ASIN: product.ASIN,
-            AmazonFBAEstimatedFees: product.AmazonFBAEstimatedFees,
-            EstimatedMonthlySales: product.EstimatedMonthlySales,
-            EstimatedSalesRank: product.EstimatedSalesRank,
-            SalesRank30days: product.SalesRank30days,
-            SalesRank90days: product.SalesRank90days,
-            SourcingURL: product.SourcingURL,
-            SourcingPrice: product.SourcingPrice,
-            AmazonURL: product.AmazonURL,
-            AmazonPrice: product.AmazonPrice,
-            AmazonOnListing: product.AmazonOnListing,
-            NumberOfSellersOnTheListing: product.NumberOfSellersOnTheListing,
-            NumberOfReviews: product.NumberOfReviews,
-            EstimatedGrossProfit: product.EstimatedGrossProfit,
-            EstimatedGrossProfitMargin: product.EstimatedGrossProfitMargin,
-            EstimatedNetProfit: product.EstimatedNetProfit,
-            EstimatedNetProfitMargin: product.EstimatedNetProfitMargin,
         });
     }
     async deleteAllData() {

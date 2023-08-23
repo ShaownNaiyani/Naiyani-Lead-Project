@@ -1,5 +1,4 @@
 export declare class StoreProductListDto {
-    id: string;
     ProductImage: string;
     ImageLink: string;
     ProductName: string;

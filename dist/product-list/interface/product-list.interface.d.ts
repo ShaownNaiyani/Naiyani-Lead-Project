@@ -1,6 +1,6 @@
 import { Document } from "mongoose";
 export interface IProductList extends Document {
-    readonly id: string;
+    readonly _id: string;
     readonly ProductImage: string;
     readonly ImageLink: string;
     readonly ProductName: string;

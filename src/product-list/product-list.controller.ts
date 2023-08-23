@@ -1,6 +1,5 @@
-import { Controller, Post, UseInterceptors,UploadedFile, ParseFilePipe, ParseFilePipeBuilder, HttpStatus, } from '@nestjs/common';
+import { Controller, Post, UseInterceptors,UploadedFile, ParseFilePipeBuilder, HttpStatus, } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 import { ProductListService } from './product-list.service';
 
 
@@ -11,13 +10,9 @@ export class ProductListController {
 
     @Post('/upload')
     @UseInterceptors(
-        FileInterceptor('file_product',{
-            storage: diskStorage({
-                destination:'./csv'
-            })
-        })
+        FileInterceptor('file_product')
     )
-    async uploadFile(@UploadedFile(
+    async LeadsFileUpload(@UploadedFile(
         new ParseFilePipeBuilder()
         .addFileTypeValidator({
         fileType: 'csv',
@@ -27,7 +22,7 @@ export class ProductListController {
         })
     ) file: Express.Multer.File){
 
-        return this.productListService.saveFile(file);
+        return this.productListService.CreateLeads(file);
 
     }
     

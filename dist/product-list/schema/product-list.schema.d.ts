@@ -24,7 +24,7 @@
 /// <reference types="mongoose" />
 /// <reference types="mongoose/types/inferschematype" />
 export declare class ProductDetails {
-    id: string;
+    _id: string;
     ProductImage: string;
     ImageLink: string;
     ProductName: string;
@@ -46,8 +46,8 @@ export declare class ProductDetails {
     EstimatedNetProfit: string;
     EstimatedNetProfitMargin: string;
 }
-export declare const ProductListSchema: import("mongoose").Schema<ProductDetails, import("mongoose").Model<ProductDetails, any, any, any, import("mongoose").Document<unknown, any, ProductDetails> & ProductDetails & {
-    _id: import("mongoose").Types.ObjectId;
-}, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, ProductDetails, import("mongoose").Document<unknown, {}, ProductDetails> & ProductDetails & {
-    _id: import("mongoose").Types.ObjectId;
-}>;
+export declare const ProductListSchema: import("mongoose").Schema<ProductDetails, import("mongoose").Model<ProductDetails, any, any, any, import("mongoose").Document<unknown, any, ProductDetails> & ProductDetails & Required<{
+    _id: string;
+}>, any>, {}, {}, {}, {}, import("mongoose").DefaultSchemaOptions, ProductDetails, import("mongoose").Document<unknown, {}, ProductDetails> & ProductDetails & Required<{
+    _id: string;
+}>>;

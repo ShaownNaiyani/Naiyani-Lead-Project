@@ -1,11 +1,15 @@
 import { Schema,SchemaFactory,Prop } from "@nestjs/mongoose";
 
+import { v4 as uuidv4 } from 'uuid';
+
 
 @Schema({collection:'ProductDetails'})
 export class ProductDetails{
 
-    @Prop()
-    id : string;
+    @Prop({ type: String, default: function genUUID() {
+        return uuidv4()
+    }})
+    _id: string
 
     @Prop()
     ProductImage:string; 
