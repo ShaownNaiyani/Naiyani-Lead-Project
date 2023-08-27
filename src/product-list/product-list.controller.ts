@@ -1,6 +1,8 @@
 import { Controller, Post, UseInterceptors,UploadedFile, ParseFilePipeBuilder, HttpStatus, } from '@nestjs/common';
+import { Multer } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductListService } from './product-list.service';
+
 
 
 @Controller('product-list')

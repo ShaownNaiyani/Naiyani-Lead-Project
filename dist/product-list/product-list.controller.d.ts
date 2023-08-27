@@ -1,4 +1,3 @@
-/// <reference types="multer" />
 import { ProductListService } from './product-list.service';
 export declare class ProductListController {
     private productListService;
