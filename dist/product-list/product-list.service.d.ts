@@ -32,8 +32,12 @@ export declare class ProductListService {
     productAlreadyExist(product: any): Promise<import("mongoose").Document<unknown, {}, IProductList> & IProductList & Required<{
         _id: string;
     }>>;
-    getALLleads(): Promise<(import("mongoose").Document<unknown, {}, IProductList> & IProductList & Required<{
-        _id: string;
-    }>)[]>;
+    getALLleads(skip?: number, limit?: number): Promise<{
+        data: (import("mongoose").Document<unknown, {}, IProductList> & IProductList & Required<{
+            _id: string;
+        }>)[];
+        page_total: number;
+        status: number;
+    }>;
     deleteAllData(): Promise<import("mongodb").DeleteResult>;
 }

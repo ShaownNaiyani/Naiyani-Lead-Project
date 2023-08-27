@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Post,
-  UseInterceptors,
-  UploadedFile,
-  ParseFilePipeBuilder,
-  HttpStatus,
-  Get,
-} from '@nestjs/common';
+import { Controller, Post, UseInterceptors,UploadedFile, ParseFilePipeBuilder, HttpStatus, Get, Query, } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductListService } from './product-list.service';
 import { Multer } from 'multer';
@@ -31,13 +23,18 @@ export class ProductListController {
     return this.productListService.createLeads(file);
   }
 
-  @Get('all-leads')
-  async allLeads() {
-    return this.productListService.getALLleads();
-  }
+    @Get('all-leads')
+    async allLeads(@Query(){limit,skip}){
 
-  @Post('delete')
-  async deleteAllFilesData() {
-    this.productListService.deleteAllData();
-  }
+        return this.productListService.getALLleads(skip,limit);
+        
+    }
+    
+
+    @Post('delete')
+    async deleteAllFilesData(){
+        this.productListService.deleteAllData();
+    }
+
+
 }

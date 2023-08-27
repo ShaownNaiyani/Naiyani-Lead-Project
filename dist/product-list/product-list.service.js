@@ -46,8 +46,15 @@ let ProductListService = exports.ProductListService = class ProductListService {
             ASIN: product.ASIN,
         });
     }
-    async getALLleads() {
-        return this.productListModel.find().exec();
+    async getALLleads(skip = 0, limit = 10) {
+        const count = await this.productListModel.countDocuments({}).exec();
+        const page_total = Math.floor((count - 1) / limit) + 1;
+        const data = await this.productListModel.find().limit(limit).skip(skip);
+        return {
+            data: data,
+            page_total: page_total,
+            status: 200,
+        };
     }
     async deleteAllData() {
         return this.productListModel.deleteMany({});
