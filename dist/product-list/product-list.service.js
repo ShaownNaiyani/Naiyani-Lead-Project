@@ -22,7 +22,7 @@ let ProductListService = exports.ProductListService = class ProductListService {
     constructor(productListModel) {
         this.productListModel = productListModel;
     }
-    async CreateLeads(file) {
+    async createLeads(file) {
         const csv = require('csvtojson');
         const productArray = await csv().fromString(file.buffer.toString());
         for (let product of productArray) {
@@ -45,6 +45,9 @@ let ProductListService = exports.ProductListService = class ProductListService {
         return await this.productListModel.findOne({
             ASIN: product.ASIN,
         });
+    }
+    async getALLleads() {
+        return this.productListModel.find().exec();
     }
     async deleteAllData() {
         return this.productListModel.deleteMany({});

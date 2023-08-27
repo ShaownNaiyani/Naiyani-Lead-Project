@@ -21,7 +21,10 @@ let ProductListController = exports.ProductListController = class ProductListCon
         this.productListService = productListService;
     }
     async LeadsFileUpload(file) {
-        return this.productListService.CreateLeads(file);
+        return this.productListService.createLeads(file);
+    }
+    async allLeads() {
+        return this.productListService.getALLleads();
     }
     async deleteAllFilesData() {
         this.productListService.deleteAllData();
@@ -41,6 +44,12 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProductListController.prototype, "LeadsFileUpload", null);
+__decorate([
+    (0, common_1.Get)('all-leads'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], ProductListController.prototype, "allLeads", null);
 __decorate([
     (0, common_1.Post)('delete'),
     __metadata("design:type", Function),
