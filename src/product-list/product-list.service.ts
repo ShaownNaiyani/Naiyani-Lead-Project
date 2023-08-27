@@ -10,7 +10,7 @@ export class ProductListService {
 
     constructor(@InjectModel("ProductDetails") private productListModel: Model<IProductList> ){}
 
-    async CreateLeads(file:any){
+    async createLeads(file:any){
 
         const csv = require('csvtojson');
 
@@ -46,6 +46,10 @@ export class ProductListService {
           });
 
 
+    }
+
+    async getALLleads(){
+        return this.productListModel.find().exec();
     }
 
     async deleteAllData(){

@@ -28,9 +28,12 @@ import { IProductList } from './interface/product-list.interface';
 export declare class ProductListService {
     private productListModel;
     constructor(productListModel: Model<IProductList>);
-    CreateLeads(file: any): Promise<HttpException>;
+    createLeads(file: any): Promise<HttpException>;
     productAlreadyExist(product: any): Promise<import("mongoose").Document<unknown, {}, IProductList> & IProductList & Required<{
         _id: string;
     }>>;
+    getALLleads(): Promise<(import("mongoose").Document<unknown, {}, IProductList> & IProductList & Required<{
+        _id: string;
+    }>)[]>;
     deleteAllData(): Promise<import("mongodb").DeleteResult>;
 }

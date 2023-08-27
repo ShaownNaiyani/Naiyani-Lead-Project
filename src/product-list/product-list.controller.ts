@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import { Controller, Post, UseInterceptors,UploadedFile, ParseFilePipeBuilder, HttpStatus, } from '@nestjs/common';
 import { Multer } from 'multer';
+=======
+import { Controller, Post, UseInterceptors,UploadedFile, ParseFilePipeBuilder, HttpStatus, Get, } from '@nestjs/common';
+>>>>>>> d686cfcadd570c171afdabd73b08490ef82284b5
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductListService } from './product-list.service';
 
@@ -24,8 +28,15 @@ export class ProductListController {
         })
     ) file: Express.Multer.File){
 
-        return this.productListService.CreateLeads(file);
+        return this.productListService.createLeads(file);
 
+    }
+
+    @Get('all-leads')
+    async allLeads(){
+
+        return this.productListService.getALLleads();
+        
     }
     
 
@@ -33,4 +44,6 @@ export class ProductListController {
     async deleteAllFilesData(){
         this.productListService.deleteAllData();
     }
+
+
 }
