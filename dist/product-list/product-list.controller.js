@@ -38,7 +38,7 @@ __decorate([
         fileType: 'csv',
     })
         .build({
-        errorHttpStatusCode: common_1.HttpStatus.UNPROCESSABLE_ENTITY
+        errorHttpStatusCode: common_1.HttpStatus.UNPROCESSABLE_ENTITY,
     }))),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
