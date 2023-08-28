@@ -34,7 +34,7 @@ export class ProductListController {
 
   @Get('all-leads')
   async allLeads(@Query() { skip, limit }) {
-    return this.productListService.getALLleads(skip,limit);
+    return this.productListService.getALLleads(skip, limit);
   }
 
   @Post('delete')
