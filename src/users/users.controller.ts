@@ -15,16 +15,16 @@ import { isPasswordValid } from 'src/utils/password-validation.util';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-  @Post('signup')
-  async create(@Body() userDto: UsersDto) {
-    if (!isPasswordValid(userDto.password)) {
-      throw new BadRequestException('Invalid password format');
-    }
-    const user = await this.usersService.createUser(userDto);
-    //for security if i dont dont want to see password
-    const { password, ...userWithoutPassword } = user;
-    return userWithoutPassword;
-  }
+  // @Post('signup')
+  // async create(@Body() userDto: UsersDto) {
+  //   if (!isPasswordValid(userDto.password)) {
+  //     throw new BadRequestException('Invalid password format');
+  //   }
+  //   const user = await this.usersService.createUser(userDto);
+  //   //for security if i dont dont want to see password
+  //   const { password, ...userWithoutPassword } = user;
+  //   return userWithoutPassword;
+  // }
 
   @Get()
   async getAllUsers() {

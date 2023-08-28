@@ -10,7 +10,7 @@ export class User extends Document {
       return uuidv4();
     },
   })
-  _userId: string;
+  _id: string;
 
   @Prop({ required: true, unique: true })
   userName: string;

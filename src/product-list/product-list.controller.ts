@@ -1,7 +1,8 @@
-import { Controller, Post, UseInterceptors,UploadedFile, ParseFilePipeBuilder, HttpStatus, Get, Query, } from '@nestjs/common';
+import { Controller, Post, UseInterceptors,UploadedFile, ParseFilePipeBuilder, HttpStatus, Get, Query, UseGuards, } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductListService } from './product-list.service';
 import { Multer } from 'multer';
+import { JwtGuard } from 'src/auth/authguard/jwt-auth.guard';
 @Controller('product-list')
 export class ProductListController {
   constructor(private productListService: ProductListService) {}
@@ -23,18 +24,19 @@ export class ProductListController {
     return this.productListService.createLeads(file);
   }
 
-    @Get('all-leads')
-    async allLeads(@Query(){limit,skip}){
+  @UseGuards(JwtGuard)
+  @Get('all-leads')
+  async allLeads(@Query(){limit,skip}){
 
-        return this.productListService.getALLleads(skip,limit);
+    return this.productListService.getALLleads(skip,limit);
         
-    }
+  }
     
 
-    @Post('delete')
-    async deleteAllFilesData(){
-        this.productListService.deleteAllData();
-    }
+  @Post('delete')
+  async deleteAllFilesData(){
+    this.productListService.deleteAllData();
+  }
 
 
 }

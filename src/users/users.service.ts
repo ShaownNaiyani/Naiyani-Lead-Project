@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { User } from './users.schema';
+import { User } from './schema/users.schema';
 import { UpdateUserDto, UsersDto } from './dtos/users.dto';
 import { hashPassword } from 'src/utils/password-validation.util';
 @Injectable()
@@ -27,11 +27,18 @@ export class UsersService {
       }
     }
   }
+  async findUserByUsername(username:string){
+
+    return await this.userModel.findOne({userName:username});
+
+  }
 
   async getUsers() {
     const users = await this.userModel.find().exec();
     return users;
   }
+
+
 
   async getUserByUserId(_userId: string) {
     const user = await this.userModel.findOne({ _userId }).exec();
@@ -40,6 +47,8 @@ export class UsersService {
     }
     return user;
   }
+
+
 
   async updateUserById(_userId: string, updateUserDto: UpdateUserDto) {
     const { password, ...rest } = updateUserDto;
@@ -63,6 +72,8 @@ export class UsersService {
     return updatedUser;
   }
 
+
+
   async deleteUserById(_userId: string) {
     const deletedUser = await this.userModel.findOneAndDelete({ _userId });
     if (!deletedUser) {
@@ -70,7 +81,8 @@ export class UsersService {
     }
     return deletedUser;
   }
-
+  
+  
   async deleteAllusers() {
     return this.userModel.deleteMany({}).exec();
   }
