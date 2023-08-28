@@ -46,13 +46,12 @@ let ProductListService = exports.ProductListService = class ProductListService {
             ASIN: product.ASIN,
         });
     }
-    async getALLleads(skip = 0, limit = 10) {
+    async getALLleads(skip, limit) {
         const count = await this.productListModel.countDocuments({}).exec();
-        const page_total = Math.floor((count - 1) / limit) + 1;
-        const data = await this.productListModel.find().limit(limit).skip(skip);
+        const data = await this.productListModel.find().skip(skip).limit(limit);
         return {
             data: data,
-            page_total: page_total,
+            count: count,
             status: 200,
         };
     }
@@ -62,7 +61,7 @@ let ProductListService = exports.ProductListService = class ProductListService {
 };
 exports.ProductListService = ProductListService = __decorate([
     (0, common_1.Injectable)(),
-    __param(0, (0, mongoose_1.InjectModel)("ProductDetails")),
+    __param(0, (0, mongoose_1.InjectModel)('ProductDetails')),
     __metadata("design:paramtypes", [mongoose_2.Model])
 ], ProductListService);
 //# sourceMappingURL=product-list.service.js.map

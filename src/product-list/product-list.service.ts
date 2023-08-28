@@ -7,61 +7,57 @@ import { validate } from 'class-validator';
 
 @Injectable()
 export class ProductListService {
+  constructor(
+    @InjectModel('ProductDetails')
+    private productListModel: Model<IProductList>,
+  ) {}
 
-    constructor(@InjectModel("ProductDetails") private productListModel: Model<IProductList> ){}
+  async createLeads(file: any) {
+    const csv = require('csvtojson');
 
-    async createLeads(file:any){
+    const productArray = await csv().fromString(file.buffer.toString());
 
-        const csv = require('csvtojson');
+    for (let product of productArray) {
+      const productExists = await this.productAlreadyExist(product);
 
-        const productArray = await csv().fromString(file.buffer.toString());
+      if (!productExists) {
+        const dtoFile = new StoreProductListDto();
+        Object.assign(dtoFile, product);
 
-        
-        for(let product of productArray){
-            const productExists = await this.productAlreadyExist(product);
-
-            if(!productExists){
-                const dtoFile = new StoreProductListDto();
-                Object.assign(dtoFile, product);
-    
-                const validationErrors = await validate(dtoFile);
-                if (validationErrors.length === 0) {
-                    
-                    const newProduct = await new this.productListModel(dtoFile);
-                    const saveProduct = await newProduct.save();
-                    
-                } else {
-                   return new HttpException('Empty filed not accptable.Please insert a value in empty field!', HttpStatus.BAD_REQUEST);
-                }
-            }
-
+        const validationErrors = await validate(dtoFile);
+        if (validationErrors.length === 0) {
+          const newProduct = await new this.productListModel(dtoFile);
+          const saveProduct = await newProduct.save();
+        } else {
+          return new HttpException(
+            'Empty filed not accptable.Please insert a value in empty field!',
+            HttpStatus.BAD_REQUEST,
+          );
         }
-
+      }
     }
+  }
 
-    async productAlreadyExist(product:any){
+  async productAlreadyExist(product: any) {
+    return await this.productListModel.findOne({
+      ASIN: product.ASIN,
+    });
+  }
 
-       return  await this.productListModel.findOne({
-            ASIN : product.ASIN,
-          });
+  async getALLleads(skip: number, limit: number) {
+    const count = await this.productListModel.countDocuments({}).exec();
+    // console.log('count', count);
+    // const page_total = Math.floor((count - 1) / limit) + 1;
+    const data = await this.productListModel.find().skip(skip).limit(limit);
+    return {
+      data: data,
+      count: count,
+      //   page_total: page_total,
+      status: 200,
+    };
+  }
 
-
-    }
-
-    async getALLleads(skip=0,limit=10){
-
-        const count = await this.productListModel.countDocuments({}).exec();
-        const page_total = Math.floor((count-1)/limit)+1;
-        const data = await this.productListModel.find().limit(limit).skip(skip);
-        return {
-            data:data,
-            page_total : page_total,
-            status:200,
-        }
-    }
-
-    async deleteAllData(){
-        return this.productListModel.deleteMany({})
-    }
-    
+  async deleteAllData() {
+    return this.productListModel.deleteMany({});
+  }
 }

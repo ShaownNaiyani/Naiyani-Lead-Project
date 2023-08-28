@@ -28,11 +28,14 @@ export declare class ProductListController {
     private productListService;
     constructor(productListService: ProductListService);
     LeadsFileUpload(file: Express.Multer.File): Promise<import("@nestjs/common").HttpException>;
-    allLeads(): Promise<{
+    allLeads({ skip, limit }: {
+        skip: any;
+        limit: any;
+    }): Promise<{
         data: (import("mongoose").Document<unknown, {}, import("./interface/product-list.interface").IProductList> & import("./interface/product-list.interface").IProductList & Required<{
             _id: string;
         }>)[];
-        page_total: number;
+        count: number;
         status: number;
     }>;
     deleteAllFilesData(): Promise<void>;
