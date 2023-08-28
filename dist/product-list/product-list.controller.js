@@ -16,6 +16,7 @@ exports.ProductListController = void 0;
 const common_1 = require("@nestjs/common");
 const platform_express_1 = require("@nestjs/platform-express");
 const product_list_service_1 = require("./product-list.service");
+const jwt_auth_guard_1 = require("../auth/authguard/jwt-auth.guard");
 let ProductListController = exports.ProductListController = class ProductListController {
     constructor(productListService) {
         this.productListService = productListService;
@@ -23,8 +24,8 @@ let ProductListController = exports.ProductListController = class ProductListCon
     async LeadsFileUpload(file) {
         return this.productListService.createLeads(file);
     }
-    async allLeads() {
-        return this.productListService.getALLleads();
+    async allLeads({ limit, skip }) {
+        return this.productListService.getALLleads(skip, limit);
     }
     async deleteAllFilesData() {
         this.productListService.deleteAllData();
@@ -45,9 +46,11 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProductListController.prototype, "LeadsFileUpload", null);
 __decorate([
+    (0, common_1.UseGuards)(jwt_auth_guard_1.JwtGuard),
     (0, common_1.Get)('all-leads'),
+    __param(0, (0, common_1.Query)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], ProductListController.prototype, "allLeads", null);
 __decorate([
