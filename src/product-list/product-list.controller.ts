@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Get,
   Query,
+  Delete,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ProductListService } from './product-list.service';
@@ -37,7 +38,7 @@ export class ProductListController {
     return this.productListService.getALLleads(skip, limit);
   }
 
-  @Post('delete')
+  @Delete('delete')
   async deleteAllFilesData() {
     this.productListService.deleteAllData();
   }
