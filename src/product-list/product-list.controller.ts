@@ -33,7 +33,7 @@ export class ProductListController {
   ) {
     return this.productListService.createLeads(file);
   }
-
+  @UseGuards(JwtGuard)
   @Get('all-leads')
   async allLeads(@Query() { skip, limit }) {
     return this.productListService.getALLleads(skip, limit);
