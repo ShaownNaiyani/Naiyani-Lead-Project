@@ -9,10 +9,9 @@ export class AuthService {
     constructor(private readonly userService:UsersService,private jwt:JwtService){}
 
     async validateUser(username:string,password:string){
-        console.log(username+password);
-        const user = await this.userService.findUserByUsername(username);
 
-        if(user && bcrypt.compare(password,user.password)){
+        const user = await this.userService.findUserByUsername(username);
+        if(user &&  await bcrypt.compare(password,user.password)){
 
             const {password,...result} = user;
 
@@ -24,10 +23,12 @@ export class AuthService {
     }
 
     async login(user:User){
+
+        const expiresIn = '3600';
         const payload = {
             userName:user.userName
         }
 
-        return {...user,accessToken:this.jwt.sign(payload)};
+        return {...user,accessToken:this.jwt.sign(payload),expiresIn:expiresIn};
     }
 }
